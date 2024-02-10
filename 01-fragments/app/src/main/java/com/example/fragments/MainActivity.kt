@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager
 
 
 class MainActivity : AppCompatActivity() {
-    private var curFragment: Int? = null
+    private var curFragment: Fragment? = null
     private lateinit var fm: FragmentManager
 
     private lateinit var detailedWeatherFragment: Fragment
@@ -28,17 +28,13 @@ class MainActivity : AppCompatActivity() {
         findViewById<androidx.fragment.app.FragmentContainerView>(R.id.weatherFragment)
             .setOnClickListener {
                 curFragment = when(curFragment) {
-                    0 -> 1
-                    1 -> 0
-                    else -> 1
+                    compactWeatherFragment -> detailedWeatherFragment
+                    detailedWeatherFragment -> compactWeatherFragment
+                    else -> detailedWeatherFragment
                 }
 
                 fm.beginTransaction()
-                    .replace(R.id.weatherFragment, when(curFragment) {
-                        0 -> detailedWeatherFragment
-                        1 -> compactWeatherFragment
-                        else -> detailedWeatherFragment
-                    })
+                    .replace(R.id.weatherFragment, curFragment!!)
                     .commit()
 
             }
