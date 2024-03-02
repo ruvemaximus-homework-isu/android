@@ -2,12 +2,13 @@ package com.example.fragments
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
 
 class MainActivity : AppCompatActivity() {
-    private var curFragment: Fragment? = null
     private lateinit var fm: FragmentManager
 
     private lateinit var detailedWeatherFragment: Fragment
@@ -21,22 +22,23 @@ class MainActivity : AppCompatActivity() {
         detailedWeatherFragment = DetailedWeatherFragment.newInstance(0)
         compactWeatherFragment = CompactWeatherFragment.newInstance(0)
 
-        fm.beginTransaction()
-            .replace(R.id.weatherFragment, detailedWeatherFragment)
-            .commit()
+        val fragments = arrayOf("Подробная погода", "Краткая сводка")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, fragments)
 
-        findViewById<androidx.fragment.app.FragmentContainerView>(R.id.weatherFragment)
-            .setOnClickListener {
-                curFragment = when(curFragment) {
-                    compactWeatherFragment -> detailedWeatherFragment
-                    detailedWeatherFragment -> compactWeatherFragment
-                    else -> detailedWeatherFragment
+        val dialog = AlertDialog.Builder(this).apply {
+            setTitle("Как отобразить погоду?")
+            setAdapter(adapter) { _, which ->
+                when (which) {
+                    0 -> switchToFragment(detailedWeatherFragment)
+                    1 -> switchToFragment(compactWeatherFragment)
                 }
+            }.create()
+        }
 
-                fm.beginTransaction()
-                    .replace(R.id.weatherFragment, curFragment!!)
-                    .commit()
+        findViewById<androidx.fragment.app.FragmentContainerView>(R.id.weatherFragment).setOnClickListener { dialog.show() }
+    }
 
-            }
+    private fun switchToFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.weatherFragment, fragment).commit()
     }
 }
