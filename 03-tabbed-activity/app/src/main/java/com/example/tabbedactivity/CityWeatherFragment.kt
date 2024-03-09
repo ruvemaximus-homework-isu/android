@@ -35,14 +35,17 @@ class CityWeatherFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_city_weather, container, false)
+    ): View {
+        _binding = FragmentCityWeatherBinding.inflate(inflater, container, false)
 
         binding.apply {
-            cityName.text = "City: ${cityWeatherData?.cityName}"
+            cityName.text = cityWeatherData?.cityName
+            temperature.text = cityWeatherData?.temperature.toString()
+            humidity.text = cityWeatherData?.humidity.toString()
+            windSpeed.text = cityWeatherData?.windSpeed.toString()
         }
 
-        return view
+        return binding.root
     }
 
     companion object {

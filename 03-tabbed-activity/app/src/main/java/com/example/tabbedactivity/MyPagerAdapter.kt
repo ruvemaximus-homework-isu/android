@@ -15,6 +15,6 @@ class MyPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     }
 
     override fun getPageTitle(position: Int): CharSequence {
-        return repository.get(position).cityName
+        return repository.get(position)?.cityName ?: "Unknown"
     }
 }
