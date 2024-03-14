@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Fragments</string>
+
+    <string name="language">Language</string>
+    <string name="weather_change_dialog">Show weather</string>
+    <string-array name="weather_types">
+        <item>Detailed</item>
+        <item>Compact</item>
+    </string-array>
+
+    <string name="detailed_info">Detailed Info (%s)</string>
+    <string name="temperature_info_detailed">[Temp] %s (%s - %s)</string>
+    <string name="wind_info_detailed">[Wind] Speed: %s Deg: %s Gust: %s</string>
+
+    <string name="compact_info">Compact Info (%s)</string>
+    <string name="temperature_info_compact">[Temp] %s</string>
+    <string name="wind_info_compact">[Wind] Speed: %s</string>
 </resources>

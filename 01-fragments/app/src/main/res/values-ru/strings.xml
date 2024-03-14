@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Фрагменты</string>
+
+    <string name="language">Язык</string>
+    <string name="weather_change_dialog">Отображать погоду</string>
+    <string-array name="weather_types">
+        <item>Детально</item>
+        <item>Кратко</item>
+    </string-array>
+
+    <string name="detailed_info">Подробная информация (%s)</string>
+    <string name="temperature_info_detailed">[Темп] %s (%s - %s)</string>
+    <string name="wind_info_detailed">[Ветер] Скорость: %s Градусы: %s Порывы: %s</string>
+
+    <string name="compact_info">Краткая информация (%s)</string>
+    <string name="temperature_info_compact">[Темп] %s</string>
+    <string name="wind_info_compact">[Ветер] Скорость: %s</string>
+</resources>

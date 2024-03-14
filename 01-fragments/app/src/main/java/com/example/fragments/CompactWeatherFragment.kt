@@ -5,22 +5,43 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 
+import com.example.fragments.databinding.FragmentCompactWeatherBinding
 
 private const val ARG_WEATHER_DATA_ID = "weather_data_id"
 
 
 class CompactWeatherFragment : Fragment() {
     private var weatherId: Int = 0
-    private var repository = WeatherMockRepository()
+    private var repository: WeatherMockRepository? = null
 
+    private var _binding: FragmentCompactWeatherBinding? = null
+    private val binding get() = _binding!!
+
+    private var _data: WeatherData? = null
+    private val data get() = _data!!
+
+    @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_compact_weather, container, false)
+    ): View {
+        _binding = FragmentCompactWeatherBinding.inflate(inflater, container, false)
+
+        binding.apply {
+            title.text = getString(R.string.compact_info, data.name)
+            temp.text = getString(
+                R.string.temperature_info_compact,
+                data.main.temp.toString(),
+            )
+            wind.text = getString(
+                R.string.wind_info_compact,
+                data.main.temp.toString(),
+            )
+        }
+
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,17 +49,9 @@ class CompactWeatherFragment : Fragment() {
         arguments?.let {
             weatherId = it.getInt(ARG_WEATHER_DATA_ID)
         }
-    }
 
-    @SuppressLint("SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val data = repository.getById(weatherId)
-
-        view.findViewById<TextView>(R.id.title).text = "Compact Info (${data.name})"
-        view.findViewById<TextView>(R.id.temp).text = "[Temp] ${data.main.temp}"
-        view.findViewById<TextView>(R.id.wind).text = "[Wind] Speed: ${data.wind.speed} (${data.wind.deg})"
+        repository = WeatherMockRepository()
+        _data = repository!!.getById(weatherId)
     }
 
     companion object {
@@ -48,5 +61,10 @@ class CompactWeatherFragment : Fragment() {
                     putInt(ARG_WEATHER_DATA_ID, id)
                 }
             }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
